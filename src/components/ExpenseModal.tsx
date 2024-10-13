@@ -12,7 +12,11 @@ interface ExpenseModalProps {
   editExpense: Expense | null;
 }
 
-const ExpenseModal: React.FC<ExpenseModalProps> = ({ closeModal, onSave, editExpense }) => {
+const ExpenseModal: React.FC<ExpenseModalProps> = ({
+  closeModal,
+  onSave,
+  editExpense,
+}) => {
   const [type, setType] = useState<string>("Lavagem");
   const [amount, setAmount] = useState<number | string>("");
   const [date, setDate] = useState<string>("");
