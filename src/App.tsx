@@ -10,6 +10,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 
 const App: React.FC = () => {
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -25,10 +26,10 @@ const App: React.FC = () => {
         >
           <Route path="home" element={<Home />} />
           <Route path="profile" element={<Profile />} />
-          {/* Adicione outras rotas protegidas aqui */}
         </Route>
       </Routes>
     </Router>
+    </>
   );
 };
 

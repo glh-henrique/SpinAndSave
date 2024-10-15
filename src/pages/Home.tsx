@@ -13,16 +13,8 @@ interface Expense {
   familyId: string;
 }
 
-interface UserProfile {
-  $id: string;
-  userId: string;
-  email: string;
-  name: string;
-  familyId: string;
-}
 
-const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID; 
-const USER_PROFILES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_USER_PROFILES_COLLECTION_ID;
+const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const EXPENSES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_EXPENSES_COLLECTION_ID;
 
 const Home: React.FC = () => {
@@ -30,7 +22,6 @@ const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editExpenseIndex, setEditExpenseIndex] = useState<number | null>(null);
   const [familyId, setFamilyId] = useState<string>("");
-  const navigate = useNavigate();
 
   // Função utilitária para mapear Document para Expense
   const documentToExpense = (doc: Models.Document): Expense => {
@@ -43,54 +34,24 @@ const Home: React.FC = () => {
     };
   };
 
-  // Função utilitária para mapear Document para UserProfile
-  const documentToUserProfile = (doc: Models.Document): UserProfile => {
-    return {
-      $id: doc.$id,
-      userId: doc.userId as string,
-      email: doc.email as string,
-      name: doc.name as string,
-      familyId: doc.familyId as string,
-    };
-  };
-
   // Função para buscar o familyId do usuário logado
   useEffect(() => {
-    const fetchFamilyId = async () => {
+    const fetchUser = async () => {
       try {
         // Obtém o usuário autenticado
         const user = await account.get();
-  
-        // Tenta obter o perfil do usuário
-        const profileResponse = await databases.getDocument(
-          DATABASE_ID,
-          USER_PROFILES_COLLECTION_ID,
-          user.$id
-        );
-  
-        // Mapeia o perfil do usuário
-        const userProfile = documentToUserProfile(profileResponse);
-  
-        // Verifica se o usuário tem um familyId
-        if (userProfile.familyId) {
-          setFamilyId(userProfile.familyId);
-          // Busca as despesas associadas ao familyId
-          fetchExpenses(userProfile.familyId);
-        }
+        
+        // Busca as despesas associadas ao familyId
+        fetchExpenses(user.$id);
+        setFamilyId(user.$id)
+        
+
       } catch (error: any) {
-        if (error.code === 404) {
-          console.error("Perfil do usuário não encontrado:", error);
-          alert("Perfil do usuário não encontrado. Por favor, faça login novamente.");
-          navigate("/"); // Redireciona para o login
-        } else {
-          console.error("Erro ao obter o familyId do usuário:", error);
-          alert("Ocorreu um erro. Por favor, tente novamente.");
-          navigate("/"); // Redireciona para o login ou trata conforme necessário
-        }
+        console.log(error)
       }
     };
-  
-    fetchFamilyId();
+
+    fetchUser();
   }, []);
 
   // Função para buscar as despesas da família
