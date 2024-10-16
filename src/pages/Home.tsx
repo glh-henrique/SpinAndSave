@@ -129,15 +129,6 @@ const Home: React.FC = () => {
     <div className="home-container">
       <h2>Despesas de Lavagem e Secagem</h2>
       <button onClick={() => setIsModalOpen(true)}>Adicionar Despesa</button>
-      <ul>
-        {expenses.map((expense, index) => (
-          <li key={expense.$id}>
-            {`${expense.type} - ${expense.amount} EUR - ${expense.date}`}
-            <button onClick={() => setEditExpenseIndex(index)}>Editar</button>
-            <button onClick={() => handleDeleteExpense(index)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
       {isModalOpen && (
         <ExpenseModal
           closeModal={() => setIsModalOpen(false)}
@@ -146,6 +137,19 @@ const Home: React.FC = () => {
             editExpenseIndex !== null ? expenses[editExpenseIndex] : null
           }
         />
+      )}
+      {expenses ? (
+        <ul>
+          {expenses.map((expense, index) => (
+            <li key={expense.$id}>
+              {`${expense.type} - ${expense.amount} EUR - ${expense.date}`}
+              <button onClick={() => setEditExpenseIndex(index)}>Editar</button>
+              <button onClick={() => handleDeleteExpense(index)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Carregando despesas...</p>
       )}
     </div>
   );

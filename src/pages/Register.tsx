@@ -7,6 +7,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [apto, setApto] = useState<string>("");
 
   const handleRegister = async (): Promise<void> => {
     try {
@@ -34,6 +35,12 @@ const Register: React.FC = () => {
         placeholder="Nome"
         value={name}
         onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Apartamento"
+        value={apto}
+        onChange={(e) => setApto(e.target.value)}
       />
       <input
         type="email"

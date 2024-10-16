@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { account, databases } from '../appwrite';
+import { account } from '../appwrite';
 
 
 const Profile: React.FC = () => {
@@ -9,12 +9,7 @@ const Profile: React.FC = () => {
     const fetchProfile = async () => {
       try {
         const user = await account.get();
-        const profile = await databases.getDocument(
-          import.meta.env.VITE_APPWRITE_DATABASE_ID,
-          import.meta.env.VITE_APPWRITE_USER_PROFILES_COLLECTION_ID,
-          user.$id
-        );
-        setUserProfile(profile);
+        setUserProfile(user);
       } catch (error) {
         console.error('Erro ao buscar perfil:', error);
       }
