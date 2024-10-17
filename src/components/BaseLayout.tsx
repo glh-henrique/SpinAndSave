@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import NavBar from './NavBar';
 import { ToastContainer } from 'react-toastify';
 
-const ProtectedLayout: React.FC = () => {
+const BaseLayout: React.FC = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col">
@@ -17,4 +17,4 @@ const ProtectedLayout: React.FC = () => {
   );
 };
 
-export default ProtectedLayout;
+export default BaseLayout;

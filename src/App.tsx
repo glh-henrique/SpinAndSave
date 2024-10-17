@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
-import ProtectedLayout from "./components/ProtectedLayout";
+import BaseLayout from "./components/BaseLayout";
 
 const App: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ const App: React.FC = () => {
           path="/"
           element={
             <ProtectedRoute>
-              <ProtectedLayout />
+              <BaseLayout />
             </ProtectedRoute>
           }
         >

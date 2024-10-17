@@ -69,6 +69,9 @@ const NavBar: React.FC = () => {
               <li>
                 <Link to="/profile" className="text-black font-bold">Perfil</Link>
               </li>
+              <li>
+                <Link to="/laundry-status" className="text-black font-bold">Laundry Status</Link>
+              </li>
               <li className="nav-item relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -100,6 +103,9 @@ const NavBar: React.FC = () => {
               </li>
               <li>
                 <Link to="/register" className="text-black font-bold">Registrar</Link>
+              </li>
+              <li>
+                <Link to="/laundry-status" className="text-black font-bold">Laundry Status</Link>
               </li>
             </>
           )}
