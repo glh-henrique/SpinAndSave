@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Query, Models, ID } from "appwrite";
-import { useNavigate } from "react-router-dom";
 import { account, databases } from "../appwrite";
 import ExpenseModal from "../components/ExpenseModal";
 
