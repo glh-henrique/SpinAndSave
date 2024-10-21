@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { account, databases } from "../appwrite";
 import { ID } from "appwrite";
-import NavBar from "../components/NavBar";
 import { toast, ToastContainer } from "react-toastify";
 
 
