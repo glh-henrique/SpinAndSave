@@ -28,7 +28,7 @@ const Register: React.FC = () => {
         }
       );
 
-      const redirectURL = "http://localhost:5173/email-verification";
+      const redirectURL = "https://spin-and-save.vercel.app/email-verification";
       await account.createVerification(redirectURL);
       await account.deleteSession("current");
 
@@ -42,7 +42,6 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <NavBar />
       <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Registrar</h2>
