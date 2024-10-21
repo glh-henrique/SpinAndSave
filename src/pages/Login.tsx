@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { account } from "../appwrite";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -32,7 +32,7 @@ const Login: React.FC = () => {
       if (!user.emailVerification) {
         alert("Por favor, verifique seu e-mail antes de fazer login.");
         // Opcional: Reenvia o e-mail de verificação
-        const redirectURL = "http://localhost:5173/email-verification";
+        const redirectURL = "https://spin-and-save.vercel.app/email-verification";
         await account.createVerification(redirectURL);
         await account.deleteSession("current"); // Encerra a sessão
         return;
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="Spin And Save"
-            src="/src/assets/spin-and-save.png"
+            src="/img/spin-and-save.png"
             className="mx-auto h-48 w-auto"
           />
           <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -115,9 +115,9 @@ const Login: React.FC = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Não tem uma conta? {' '}
-            <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Registre-se aqui
-            </a>
+            </Link>
           </p>
         </div>
       </div>

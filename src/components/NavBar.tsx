@@ -57,7 +57,7 @@ const NavBar: React.FC = () => {
   return (
     <header className="bg-gray-300 p-4 flex justify-between items-center">
       <div className="logo">
-        <img src="/src/assets/spin-and-save.png" alt="Logo" className="w-16 h-auto" />
+        <img src="/img/spin-and-save.png" alt="Logo" className="w-16 h-auto" />
       </div>
       <nav className="navbar">
         <ul className="flex space-x-6 items-center" >
