@@ -78,7 +78,7 @@ const NavBar: React.FC = () => {
                   className="relative z-10 block w-8 h-8 rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-white"
                 >
                   <img
-                    src="/src/assets/user.svg"
+                    src="/img/user.svg"
                     alt="User Avatar"
                     className="w-full h-full object-cover"
                   />
