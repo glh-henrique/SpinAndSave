@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import BaseLayout from "./components/BaseLayout";
+import NotFound from "./pages/NotFound";
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path="home" element={<Home />} />
           <Route path="profile" element={<Profile />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
     </>
