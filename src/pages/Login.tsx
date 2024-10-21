@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { account } from "../appwrite";
 
 import { ToastContainer, toast } from 'react-toastify';
-import NavBar from "../components/NavBar";
 
 
 const Login: React.FC = () => {
