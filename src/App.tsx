@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
-import BaseLayout from "./components/BaseLayout";
+import BaseLayout from "./theme/components/BaseLayout";
 import NotFound from "./pages/NotFound";
 
 const App: React.FC = () => {
@@ -17,7 +17,6 @@ const App: React.FC = () => {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/email-verification" element={<EmailVerification />} />
-        <Route path="/laundry-status" element={<p> aqui ainda não ta pronto</p>} />
         <Route
           path="/"
           element={
@@ -28,6 +27,7 @@ const App: React.FC = () => {
         >
           <Route path="home" element={<Home />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
