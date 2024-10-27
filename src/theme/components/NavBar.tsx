@@ -4,89 +4,104 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useNavigate } from 'react-router-dom';
+import Home from '@mui/icons-material/Home';
+import LocalLaundryService from '@mui/icons-material/LocalLaundryService';
+import Logout from '@mui/icons-material/Logout';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SwitchCustom from '../../components/Switch';
 import { Avatar, styled } from '@mui/material';
+import { account } from '../../appwrite';
 
-
-const CustomDiv = styled('div')(() => ({
+const CustomDiv = styled('div')({
   flexGrow: 1,
   justifyContent: 'flex-start',
-}));
+});
 
-const CustomNav = styled('nav')(() => ({
+const CustomNav = styled('nav')({
   display: 'flex',
   justifyContent: 'center',
-}));
+});
 
-const CustomAvatar = styled(Avatar)(() => ({
+const CustomAvatar = styled(Avatar)({
   cursor: 'pointer'
-}));
+});
 
-const CustomToolbar = styled(Toolbar)(() => ({
+const CustomToolbar = styled(Toolbar)({
   width: '100%',
   maxWidth: '1600px'
-}));
+});
 
 const CustomAppBar = styled(AppBar)(() => ({}));
 
 const NavBar: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const navItems = ['Home', 'Laundry Status'];
+  const navItems = [
+    {
+      label: 'Home',
+      icon: <Home sx={{ fontSize: {sm: 30, md: 33}}} />,
+      route: '/home'
+    },
+    {
+      label: 'Laundry Status',
+      icon: <LocalLaundryService sx={{ fontSize: {sm: 30, md: 33}}} />,
+      route: '/laundry-status'
+    },
+    {
+      label: 'Profile',
+      icon: <AccountCircle sx={{ fontSize: {sm: 30, md: 33}}} />,
+      route: '/profile'
+    }
+  ];
+
+  const getLinkStyle = (path: string) => {
+    const isActive = location.pathname === path;
+    return isActive ? "primary" : "default";
+  };
 
 
-  const navigateTo = useCallback((item: string) => {
-    navigate(`/${item.replace(' ', '-').toLowerCase()}`);
-  }, [])
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await account.deleteSession('current');
-  //     navigate('/'); // Redireciona para a página de login após logout
-  //   } catch (error) {
-  //     console.error('Erro ao encerrar a sessão:', error);
-  //     alert('Erro ao encerrar a sessão. Por favor, tente novamente.');
-  //   }
-  // };
+  const handleLogout = async () => {
+    try {
+      await account.deleteSession('current');
+      navigate('/'); // Redireciona para a página de login após logout
+    } catch (error) {
+      console.error('Erro ao encerrar a sessão:', error);
+      alert('Erro ao encerrar a sessão. Por favor, tente novamente.');
+    }
+  };
 
   return (
     <>
-
       <CssBaseline />
       <CustomAppBar>
-        <CustomNav>
-
+        <CustomNav >
           <CustomToolbar>
-
             <CustomDiv>
-              <CustomAvatar onClick={() => navigateTo(navItems[0])} alt="Home Spin adn Save" src="/img/spin-and-save.png" />
+              <CustomAvatar onClick={() => navigate(navItems[0].route)} alt="Home Spin adn Save" src="/img/spin-and-save.png" />
             </CustomDiv>
-
-            <Box>
+            <Box >
               {navItems.map((item) => (
-                <Button onClick={() => navigateTo(item)} key={item} sx={{ color: '#fff' }}>
-                  <Typography>
-                    {item}
-                  </Typography>
-                </Button>
+                <IconButton
+                  key={item.route}
+                  onClick={() => navigate(item.route)}
+                  size="large"
+                  
+                  color={getLinkStyle(item.route)}
+                  aria-label={item.label}
+                >
+                  {item.icon}
+                </IconButton>
               ))}
-
-              <IconButton
-                onClick={() => navigateTo('Profile')}
-                size="large"
-                aria-label="account of current user"
-                aria-controls="primary-search-account-menu"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
               <SwitchCustom />
+              <IconButton
+                onClick={handleLogout}
+                size="large"
+                aria-label="account logout"
+              >
+                <Logout />
+              </IconButton>
             </Box>
-
           </CustomToolbar>
         </CustomNav>
       </CustomAppBar>

@@ -4,16 +4,23 @@ import NavBar from './NavBar';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from "@vercel/analytics/react"
 import AppTheme from '../appTheme';
+import styled from '@emotion/styled';
+
+const CustomDiv = styled('div')({
+  paddingTop: '68px',
+  width: '100%',
+  maxWidth: '1600px'
+});
 
 const BaseLayout: React.FC = () => {
   return (
     <AppTheme>
       <NavBar />
-      <div className="main-content flex-grow p-4">
+      <CustomDiv>
         <Outlet />
         <Analytics />
         <ToastContainer />
-      </div>
+      </CustomDiv>
     </AppTheme>
   );
 };
