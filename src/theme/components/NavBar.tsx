@@ -29,7 +29,7 @@ const CustomAvatar = styled(Avatar)({
 
 const CustomToolbar = styled(Toolbar)({
   width: '100%',
-  maxWidth: '1600px'
+  maxWidth: '1024px'
 });
 
 const CustomAppBar = styled(AppBar)(() => ({}));
@@ -40,24 +40,23 @@ const NavBar: React.FC = () => {
   const navItems = [
     {
       label: 'Home',
-      icon: <Home sx={{ fontSize: {sm: 30, md: 33}}} />,
+      icon: <Home sx={{ fontSize: { sm: 30, md: 33 } }} />,
       route: '/home'
     },
     {
       label: 'Laundry Status',
-      icon: <LocalLaundryService sx={{ fontSize: {sm: 30, md: 33}}} />,
+      icon: <LocalLaundryService sx={{ fontSize: { sm: 30, md: 33 } }} />,
       route: '/laundry-status'
     },
     {
       label: 'Profile',
-      icon: <AccountCircle sx={{ fontSize: {sm: 30, md: 33}}} />,
+      icon: <AccountCircle sx={{ fontSize: { sm: 30, md: 33 } }} />,
       route: '/profile'
     }
   ];
 
   const getLinkStyle = (path: string) => {
-    const isActive = location.pathname === path;
-    return isActive ? "primary" : "default";
+    return location.pathname === path ? "info" : "default";
   };
 
 
@@ -86,7 +85,7 @@ const NavBar: React.FC = () => {
                   key={item.route}
                   onClick={() => navigate(item.route)}
                   size="large"
-                  
+
                   color={getLinkStyle(item.route)}
                   aria-label={item.label}
                 >

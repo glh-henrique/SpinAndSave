@@ -8,8 +8,13 @@ import styled from '@emotion/styled';
 
 const CustomDiv = styled('div')({
   paddingTop: '68px',
+  paddingLeft: '24px',
+  paddingRight: '24px',
   width: '100%',
-  maxWidth: '1600px'
+  maxWidth: '1024px',
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '0 auto'
 });
 
 const BaseLayout: React.FC = () => {

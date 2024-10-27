@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Query, Models, ID } from "appwrite";
 import { account, databases } from "../appwrite";
 import ExpenseModal from "../components/ExpenseModal";
+import ExpenseSummary from "../components/ExpenseSummary";
+import { getCurrentMonthExpenses } from "../utils";
 
-interface Expense {
+export interface Expense {
   $id: string;
   type: string;
   amount: number;
@@ -12,6 +14,10 @@ interface Expense {
   familyId: string;
 }
 
+export interface ExpenseSummary {
+  lavagem: number;
+  secagem: number;
+} 
 
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const EXPENSES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_EXPENSES_COLLECTION_ID;
@@ -21,6 +27,7 @@ const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editExpenseIndex, setEditExpenseIndex] = useState<number | null>(null);
   const [familyId, setFamilyId] = useState<string>("");
+  const [expenseSummary, setExpenseSummary] = useState<ExpenseSummary>({lavagem: 0, secagem: 0});
 
   // Função utilitária para mapear Document para Expense
   const documentToExpense = (doc: Models.Document): Expense => {
@@ -53,8 +60,16 @@ const Home: React.FC = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if(expenses.length === 0) return;
+    console.log('getCurrentMonthExpenses')
+    const expenseSummary  = getCurrentMonthExpenses(expenses)
+    setExpenseSummary(expenseSummary)
+  },[expenses])
+
   // Função para buscar as despesas da família
   const fetchExpenses = async (familyId: string) => {
+    console.log('fetch')
     try {
       const response = await databases.listDocuments(
         DATABASE_ID,
@@ -128,6 +143,8 @@ const Home: React.FC = () => {
     <div className="flex flex-col items-center">
       <div className="w-full max-w-4xl p-6">
         <p className="text-3xl font-bold mb-6 text-center">Controle de Despesas</p>
+
+        <ExpenseSummary washing={expenseSummary.lavagem} drying={expenseSummary.secagem} />
 
         <div className="mb-4 text-right">
           <button
