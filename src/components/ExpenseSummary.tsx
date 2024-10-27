@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Divider, Card } from '@mui/material';
+import { Box, Typography, Divider, Card, styled } from '@mui/material';
 import { getCurrentMonth } from '../utils';
 
 interface ExpenseSummaryProps {
@@ -7,17 +7,30 @@ interface ExpenseSummaryProps {
   drying: number;
 }
 
+const CustomCard = styled(Card)({
+  borderRadius: 0
+});
+
+const CustomBox = styled(Box)({
+  display: 'flex',
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: '24px'
+});
+
+const Span = styled('span')({
+  fontWeight: 'bold'
+});
+
 const ExpenseSummary: React.FC<ExpenseSummaryProps> = ({ washing, drying }) => {
   const total = washing + drying;
 
   return (
-    <Card sx={{ maxWidth: '1600px', borderRadius: 0 }}>
-      <Box
-        sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: 2 }}
-      >
+    <CustomCard>
+      <CustomBox>
         <Box flex="1">
           <Typography variant="subtitle1">
-            Mês corrente: <span style={{ fontWeight: 'bold' }}>{getCurrentMonth()}</span>
+            Mês corrente: <Span>{getCurrentMonth()}</Span>
           </Typography>
           <Divider sx={{ my: 1 }} />
           <Typography variant="body2">Lavagem: {washing} euros</Typography>
@@ -32,8 +45,8 @@ const ExpenseSummary: React.FC<ExpenseSummaryProps> = ({ washing, drying }) => {
             {total} €
           </Typography>
         </Box>
-      </Box>
-    </Card>
+      </CustomBox>
+    </CustomCard>
   );
 };
 

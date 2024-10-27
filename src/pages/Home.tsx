@@ -29,7 +29,6 @@ const Home: React.FC = () => {
   const [familyId, setFamilyId] = useState<string>("");
   const [expenseSummary, setExpenseSummary] = useState<ExpenseSummary>({lavagem: 0, secagem: 0});
 
-  // Função utilitária para mapear Document para Expense
   const documentToExpense = (doc: Models.Document): Expense => {
     return {
       $id: doc.$id,
@@ -40,7 +39,6 @@ const Home: React.FC = () => {
     };
   };
 
-  // Função para buscar o familyId do usuário logado
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -62,12 +60,11 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if(expenses.length === 0) return;
-    console.log('getCurrentMonthExpenses')
+
     const expenseSummary  = getCurrentMonthExpenses(expenses)
     setExpenseSummary(expenseSummary)
   },[expenses])
 
-  // Função para buscar as despesas da família
   const fetchExpenses = async (familyId: string) => {
     console.log('fetch')
     try {
@@ -86,7 +83,6 @@ const Home: React.FC = () => {
     }
   };
 
-  // Função para adicionar ou editar uma despesa
   const handleAddExpense = async (
     expense: Omit<Expense, "$id" | "familyId">
   ): Promise<void> => {
@@ -124,7 +120,6 @@ const Home: React.FC = () => {
     setEditExpenseIndex(null);
   };
 
-  // Função para excluir uma despesa
   const handleDeleteExpense = async (index: number): Promise<void> => {
     try {
       await databases.deleteDocument(
@@ -142,15 +137,12 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="w-full max-w-4xl p-6">
-        <p className="text-3xl font-bold mb-6 text-center">Controle de Despesas</p>
+        <h1 className="text-3xl font-bold mb-6 text-center">Controle de Despesas</h1>
 
         <ExpenseSummary washing={expenseSummary.lavagem} drying={expenseSummary.secagem} />
 
         <div className="mb-4 text-right">
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-            onClick={() => setIsModalOpen(true)}
-          >
+          <button onClick={() => setIsModalOpen(true)}>
             Adicionar Despesa
           </button>
 
