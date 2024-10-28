@@ -1,13 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { account } from "../appwrite";
-
 import { ToastContainer, toast } from 'react-toastify';
+import AppTheme from "../theme/appTheme";
+import { CssBaseline, Card, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Stack } from "@mui/material";
 
+const MuiCard = styled(Card)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  margin: 'auto',
+  [theme.breakpoints.up('sm')]: { maxWidth: '450px' },
+  boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  ...theme.applyStyles('dark', {
+    boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+  }),
+}));
+
+const SignInContainer = styled(Stack)(({ theme }) => ({
+  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
+  minHeight: '100%',
+  padding: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: { padding: theme.spacing(4) },
+}));
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,107 +39,128 @@ const Login: React.FC = () => {
         console.error("Erro ao encerrar a sessão:", error);
       }
     };
-
     logoutUser();
   }, []);
 
-  const handleLogin = async (): Promise<void> => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!validateInputs()) return;
+
+    const data = new FormData(event.currentTarget);
+    const email = data.get('email') as string;
+    const password = data.get('password') as string;
+
     try {
       await account.createEmailPasswordSession(email, password);
-
-      // Verifica se o e-mail do usuário está verificado
       const user = await account.get();
+
       if (!user.emailVerification) {
-        alert("Por favor, verifique seu e-mail antes de fazer login.");
-        // Opcional: Reenvia o e-mail de verificação
-        const redirectURL = "https://spin-and-save.vercel.app/email-verification";
-        await account.createVerification(redirectURL);
-        await account.deleteSession("current"); // Encerra a sessão
+        toast("Por favor, verifique seu e-mail antes de fazer login.");
+        await account.createVerification("https://spin-and-save.vercel.app/email-verification");
+        await account.deleteSession("current");
         return;
       }
       navigate("/home");
     } catch (error) {
       console.error("Erro no login:", error);
-      toast(() => <div>Login falhou. <br /> Verifique suas credenciais.</div>);
+      toast("Login falhou. Verifique suas credenciais.");
     }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setErrors((prevErrors) => ({ ...prevErrors, [id]: "" }));
+
+    if (id === "email" && value && !/\S+@\S+\.\S+/.test(value)) {
+      setErrors((prevErrors) => ({ ...prevErrors, email: "Por favor, use um email válido!" }));
+    }
+
+    if (id === "password" && value.length > 0 && value.length < 6) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: "Password precisa ter ao menos 6 caracteres." }));
+    }
+  };
+
+  const validateInputs = () => {
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    let isValid = true;
+    const newErrors = { email: "", password: "" };
+
+    if (!email) {
+      newErrors.email = "Email é obrigatório.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Por favor, use um email válido!";
+      isValid = false;
+    }
+
+    if (!password) {
+      newErrors.password = "Password é obrigatório.";
+      isValid = false;
+    } else if (password.length < 6) {
+      newErrors.password = "Password precisa ter ao menos 6 caracteres.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   return (
     <>
       <ToastContainer />
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            alt="Spin And Save"
-            src="/img/spin-and-save.png"
-            className="mx-auto h-48 w-auto"
-          />
-          <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
+      <AppTheme>
+        <CssBaseline enableColorScheme />
+        <SignInContainer direction="column" justifyContent="space-between">
+          <MuiCard variant="outlined">
+            <Typography component="h1" variant="h4" sx={{ fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
+              Sign in
+            </Typography>
+            <Box component="form" onSubmit={handleLogin} noValidate sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <TextField
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
+                  onChange={handleChange}
                   id="email"
-                  name="email"
                   type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  required
+                  name="email"
+                  placeholder="your@email.com"
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-                {/* <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div> */}
-              </div>
-              <div className="mt-2 mb-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
                   required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  fullWidth
+                  variant="outlined"
+                  color={errors.email ? 'error' : 'primary'}
                 />
-              </div>
-            </div>
-
-            <div>
-              <button
-                onClick={handleLogin}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Não tem uma conta? {' '}
-            <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Registre-se aqui
-            </Link>
-          </p>
-        </div>
-      </div>
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <TextField
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
+                  onChange={handleChange}
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="••••••"
+                  autoComplete="current-password"
+                  required
+                  fullWidth
+                  variant="outlined"
+                  color={errors.password ? 'error' : 'primary'}
+                />
+              </FormControl>
+              <Button type="submit" fullWidth variant="contained">Sign in</Button>
+              <Typography sx={{ textAlign: 'center' }}>
+                Don&apos;t have an account? <Link to='/register'>Sign up</Link>
+              </Typography>
+            </Box>
+          </MuiCard>
+        </SignInContainer>
+      </AppTheme>
     </>
   );
 };

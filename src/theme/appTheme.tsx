@@ -19,7 +19,7 @@ export default function AppTheme({children}: AppThemeProps) {
   });
 
   return (
-    <ThemeProvider theme={theme} disableTransitionOnChange>
+    <ThemeProvider theme={theme} >
       {children}
     </ThemeProvider>
   );
