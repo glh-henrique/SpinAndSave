@@ -40,7 +40,6 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait',
         theme_color:"#f5f6fa",
-        background_color: "#fcfcfc"
       },
       workbox: {
         runtimeCaching: [
