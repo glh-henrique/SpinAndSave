@@ -12,27 +12,37 @@ export default defineConfig({
         enabled: true
       },
       manifest: {
-        short_name: 'App',
-        name: 'My PWA Application',
+        short_name: 'Spin & Save',
+        name: 'Spind and Save',
+        description: "Aplicativo criado para ajudar a gerir suas finanças referente a lavanderia e também para saber quando as maquinas estão em ouso ou não.",
         icons: [
           {
-            src: 'icon-192x192.png',
+            src: '/android-chrome-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'favicon'
           },
           {
-            src: 'icon-512x512.png',
+            src: '/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
+            purpose: 'favicon'
+          },
+          {
+            src: '/apple-touch-icon.png',
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'apple touch icon',
           },
         ],
         start_url: '/',
+        scope: '/',
         display: 'standalone',
-        theme_color: '#000000',
-        background_color: '#ffffff',
+        orientation: 'portrait',
+        theme_color:"#f5f6fa",
+        background_color: "#fcfcfc"
       },
       workbox: {
-        // Cache static assets and handle offline requests
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === 'document',
@@ -41,7 +51,7 @@ export default defineConfig({
               cacheName: 'pages-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
+                maxAgeSeconds: 60 * 60 * 24 * 7,
               },
             },
           },
@@ -55,7 +65,7 @@ export default defineConfig({
               cacheName: 'assets-cache',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 1 month
+                maxAgeSeconds: 60 * 60 * 24 * 30,
               },
             },
           },

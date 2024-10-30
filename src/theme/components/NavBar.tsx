@@ -77,7 +77,7 @@ const NavBar: React.FC = () => {
         <CustomNav >
           <CustomToolbar>
             <CustomDiv>
-              <CustomAvatar onClick={() => navigate(navItems[0].route)} alt="Home Spin adn Save" src="/img/spin-and-save.png" />
+              <CustomAvatar onClick={() => navigate(navItems[0].route)} alt="Logo Spin and Save" src="/android-chrome-512x512.png" />
             </CustomDiv>
             <Box >
               {navItems.map((item) => (
