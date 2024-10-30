@@ -5,7 +5,24 @@ import { account, databases } from "../appwrite";
 import ExpenseModal from "../components/ExpenseModal";
 import ExpenseSummary from "../components/ExpenseSummary";
 import { getCurrentMonthExpenses } from "../utils";
-import { List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, Menu, MenuItem, Typography, Button, styled, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+  List,
+  ListItem,
+  IconButton,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+  Button,
+  styled,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from "@mui/material";
 import MoreIcon from '@mui/icons-material/MoreVert'
 import Add from '@mui/icons-material/Add'
 import AirwaveIcon from '@mui/icons-material/AirOutlined'
@@ -138,19 +155,19 @@ const Home: React.FC = () => {
     setEditExpenseIndex(null);
   };
 
-  const handleDeleteExpense = async (index: number): Promise<void> => {
-    try {
-      await databases.deleteDocument(
-        DATABASE_ID,
-        EXPENSES_COLLECTION_ID,
-        expenses[index].$id
-      );
-      const updatedExpenses = expenses.filter((_, i) => i !== index);
-      setExpenses(updatedExpenses);
-    } catch (error) {
-      console.error("Erro ao excluir despesa:", error);
-    }
-  };
+  // const handleDeleteExpense = async (index: number): Promise<void> => {
+  //   try {
+  //     await databases.deleteDocument(
+  //       DATABASE_ID,
+  //       EXPENSES_COLLECTION_ID,
+  //       expenses[index].$id
+  //     );
+  //     const updatedExpenses = expenses.filter((_, i) => i !== index);
+  //     setExpenses(updatedExpenses);
+  //   } catch (error) {
+  //     console.error("Erro ao excluir despesa:", error);
+  //   }
+  // };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -210,7 +227,7 @@ const Home: React.FC = () => {
                     secondaryTypographyProps={{ variant: 'subtitle2' }}
                   />
                   <IconButton
-                    id={`lock-menu-${index}`}
+                    id={`lock-menu`}
                     aria-haspopup="listbox"
                     aria-controls={`lock-menu-${index}`}
                     aria-expanded={open ? 'true' : undefined}
@@ -218,33 +235,35 @@ const Home: React.FC = () => {
                     aria-label="Edit">
                     <MoreIcon />
                   </IconButton>
-                  <Menu
-                    id={`lock-menu-${index}`}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      'aria-labelledby': 'lock-button',
-                      role: 'listbox',
-                    }}
-                  >
 
-                    <MenuItem
-                      onClick={() => handleAddExpense(expense)}
-                    >
-                      Editar
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleDeleteExpense(index)}
-                    >
-                      Excuir
-                    </MenuItem>
-
-                  </Menu>
                 </ListItem>
               </List>
 
             ))}
+
+            <Menu
+              id={`lock-menu`}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'lock-button',
+                role: 'listbox',
+              }}
+            >
+
+              <MenuItem
+                onClick={() => console.log('213123')}
+              >
+                Editar
+              </MenuItem>
+              <MenuItem
+                 onClick={() => console.log('213123')}
+              >
+                Excuir
+              </MenuItem>
+
+            </Menu>
 
           </>
         ) : (
@@ -258,17 +277,17 @@ const Home: React.FC = () => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            Cadastrar Uma nova despesa  
+            Cadastrar Uma nova despesa
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            <ExpenseModal
-              closeModal={() => setIsModalOpen(false)}
-              onSave={handleAddExpense}
-              editExpense={
-                editExpenseIndex !== null ? expenses[editExpenseIndex] : null
-              }
-            />
+              <ExpenseModal
+                closeModal={() => setIsModalOpen(false)}
+                onSave={handleAddExpense}
+                editExpense={
+                  editExpenseIndex !== null ? expenses[editExpenseIndex] : null
+                }
+              />
             </DialogContentText>
           </DialogContent>
           <DialogActions>
