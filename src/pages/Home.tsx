@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Query, Models, ID } from "appwrite";
 import { account, databases } from "../appwrite";
 import ExpenseModal from "../components/ExpenseModal";
-import ExpenseSummary from "../components/ExpenseSummary";
-import { getCurrentMonthExpenses } from "../utils";
+import { documentToExpense, getCurrentMonthExpenses } from "../utils";
 import {
   List,
   ListItem,
@@ -23,6 +22,8 @@ import Add from '@mui/icons-material/Add'
 import AirwaveIcon from '@mui/icons-material/AirOutlined'
 import LaundryIcon from '@mui/icons-material/LocalLaundryService'
 import dayjs from "dayjs";
+import ExpenseSummary from "../components/ExpenseSummary";
+import { IExpense, IExpenseSummary } from "../utils/interfaces";
 
 const RoundedButton = styled(Button)({
   width: '50px',
@@ -34,19 +35,6 @@ const RoundedButton = styled(Button)({
   right: "30px"
 });
 
-export interface Expense {
-  $id: string;
-  type: string;
-  amount: number;
-  date: any;
-  familyId: string;
-}
-
-export interface ExpenseSummary {
-  lavagem: number;
-  secagem: number;
-}
-
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const EXPENSES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_EXPENSES_COLLECTION_ID;
 
@@ -54,22 +42,12 @@ const Home: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [expense, setExpense] = useState<Expense | null>(null);
+  const [expenses, setExpenses] = useState<IExpense[]>([]);
+  const [expense, setExpense] = useState<IExpense | null>(null);
   const [expenseIndex, setExpenseIndex] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [familyId, setFamilyId] = useState<string>("");
-  const [expenseSummary, setExpenseSummary] = useState<ExpenseSummary>({ lavagem: 0, secagem: 0 });
-
-  const documentToExpense = (doc: Models.Document): Expense => {
-    return {
-      $id: doc.$id,
-      type: doc.type as string,
-      amount: doc.amount as number,
-      date: doc.date as any,
-      familyId: doc.familyId as string,
-    };
-  };
+  const [expenseSummary, setExpenseSummary] = useState<IExpenseSummary>({ lavagem: 0, secagem: 0 });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -88,8 +66,6 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (expenses.length === 0) return;
-
     const expenseSummary = getCurrentMonthExpenses(expenses)
     setExpenseSummary(expenseSummary)
   }, [expenses])
@@ -102,7 +78,7 @@ const Home: React.FC = () => {
         [Query.equal("familyId", familyId)]
       );
 
-      const expensesData: Expense[] = response.documents.map((doc: Models.Document) =>
+      const expensesData: IExpense[] = response.documents.map((doc: Models.Document) =>
         documentToExpense(doc)
       );
       setExpenses(expensesData);
@@ -112,7 +88,7 @@ const Home: React.FC = () => {
   };
 
   const handleAddExpense = async (
-    expense: Omit<Expense, "$id" | "familyId">
+    expense: Omit<IExpense, "$id" | "familyId">
   ): Promise<void> => {
     try {
       if (expenseIndex !== null) {
@@ -127,7 +103,6 @@ const Home: React.FC = () => {
         updatedExpenses[expenseIndex] = documentToExpense(updatedExpense);
         setExpenses(updatedExpenses);
       } else {
-        // Cria uma nova despesa
         const newExpense = await databases.createDocument(
           DATABASE_ID,
           EXPENSES_COLLECTION_ID,
@@ -135,7 +110,6 @@ const Home: React.FC = () => {
           { ...expense, familyId }
         );
 
-        // Mapeia o documento para Expense
         setExpenses([...expenses, documentToExpense(newExpense)]);
       }
     } catch (error) {
@@ -168,7 +142,7 @@ const Home: React.FC = () => {
 
   };
 
-  const handleOpenItemOptions = (event: React.MouseEvent<HTMLElement>, expense: Expense, index: number) => {
+  const handleOpenItemOptions = (event: React.MouseEvent<HTMLElement>, expense: IExpense, index: number) => {
     setAnchorEl(event.currentTarget);
     setExpense(expense);
     setExpenseIndex(index);
@@ -204,7 +178,7 @@ const Home: React.FC = () => {
                   <ListItemText
                     primary="Data"
                     primaryTypographyProps={{ variant: 'caption' }}
-                    secondary={String(dayjs(expense.date))}
+                    secondary={String(dayjs(expense.date.split('T')[0]).format("DD/MM/YYYY"))}
                     secondaryTypographyProps={{ variant: 'subtitle2' }}
                   />
                   <ListItemText

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { account } from "./appwrite";
+import { IProtectedRouteProps } from "./utils/interfaces";
 
-interface ProtectedRouteProps {
-  children: JSX.Element;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<IProtectedRouteProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Verifica se o usuário está logado e se o e-mail está verificado
     const checkAuth = async () => {
       try {
         const user = await account.get();

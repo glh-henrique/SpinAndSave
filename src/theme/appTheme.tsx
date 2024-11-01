@@ -1,12 +1,8 @@
-import * as React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { colorSchemes, shadows, shape, typography } from './themePrimitives';
+import {  IAppThemeProps } from '../utils/interfaces';
 
-interface AppThemeProps {
-  children: React.ReactNode;
-}
-
-export default function AppTheme({children}: AppThemeProps) {
+export default function AppTheme({children}: IAppThemeProps) {
   const theme = createTheme({
     cssVariables: {
       colorSchemeSelector: 'data-mui-color-scheme',

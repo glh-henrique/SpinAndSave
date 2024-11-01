@@ -1,11 +1,7 @@
 import React from 'react';
 import { Box, Typography, Divider, Card, styled } from '@mui/material';
 import { getCurrentMonth } from '../utils';
-
-interface ExpenseSummaryProps {
-  washing: number;
-  drying: number;
-}
+import { IExpenseSummaryProps } from '../utils/interfaces';
 
 const CustomCard = styled(Card)({
   borderRadius: 0
@@ -22,7 +18,7 @@ const Span = styled('span')({
   fontWeight: 'bold'
 });
 
-const ExpenseSummary: React.FC<ExpenseSummaryProps> = ({ washing, drying }) => {
+const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ washing, drying }) => {
   const total = washing + drying;
 
   return (

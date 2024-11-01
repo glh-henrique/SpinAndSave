@@ -59,11 +59,10 @@ const NavBar: React.FC = () => {
     return location.pathname === path ? "info" : "default";
   };
 
-
   const handleLogout = async () => {
     try {
       await account.deleteSession('current');
-      navigate('/'); // Redireciona para a página de login após logout
+      navigate('/');
     } catch (error) {
       console.error('Erro ao encerrar a sessão:', error);
       alert('Erro ao encerrar a sessão. Por favor, tente novamente.');

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { account, databases } from '../appwrite';
 
-
 const Profile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [aptoNumber, setAptoNumber] = useState<string | null>(null);
@@ -12,11 +11,10 @@ const Profile: React.FC = () => {
         const user = await account.get();
         setUserProfile(user);
 
-        // Fetch aptoNumber from user_profiles collection using userId
         const userProfileDoc = await databases.listDocuments(
           import.meta.env.VITE_APPWRITE_DATABASE_ID,
           import.meta.env.VITE_APPWRITE_USER_PROFILES_COLLECTION_ID,
-          [`userId=${user.$id}`]  // Filtering by userId
+          [`userId=${user.$id}`]
         );
 
         if (userProfileDoc.documents.length > 0) {
