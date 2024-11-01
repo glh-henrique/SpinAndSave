@@ -12,7 +12,7 @@ export function getCurrentMonth() {
 export function getCurrentMonthExpenses(expenses: Expense[]) {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth(); // 0-indexed, so January is 0
+    const currentMonth = currentDate.getMonth(); 
   
     let lavagemTotal = 0;
     let secagemTotal = 0;

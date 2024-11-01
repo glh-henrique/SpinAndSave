@@ -22,7 +22,7 @@ import MoreIcon from '@mui/icons-material/MoreVert'
 import Add from '@mui/icons-material/Add'
 import AirwaveIcon from '@mui/icons-material/AirOutlined'
 import LaundryIcon from '@mui/icons-material/LocalLaundryService'
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 const RoundedButton = styled(Button)({
   width: '50px',
@@ -38,7 +38,7 @@ export interface Expense {
   $id: string;
   type: string;
   amount: number;
-  date: Dayjs;
+  date: any;
   familyId: string;
 }
 
