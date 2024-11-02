@@ -35,4 +35,5 @@ export interface IExpenseModalProps {
 export interface IExpenseSummaryProps {
     washing: number;
     drying: number;
+    month?: string
 }

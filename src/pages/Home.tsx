@@ -16,7 +16,9 @@ import {
   Typography,
   Button,
   styled,
+  Box,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import MoreIcon from '@mui/icons-material/MoreVert'
 import Add from '@mui/icons-material/Add'
 import AirwaveIcon from '@mui/icons-material/AirOutlined'
@@ -154,8 +156,12 @@ const Home: React.FC = () => {
         <h1>Controle de Despesas</h1>
 
         <ExpenseSummary washing={expenseSummary.lavagem} drying={expenseSummary.secagem} />
-
-        <Typography sx={{ marginTop: '10px', marginBottom: '5px' }}>Listagem</Typography>
+        <Box component="section" sx={{ p: 2, marginTop: '10px', marginBottom: '5px', display: 'flex', justifyContent: 'space-between' }}>
+          <Typography>Atividades recetes</Typography>
+          <Typography sx={{ textAlign: 'center' }}>
+            <Link to='/usage-history'>Ver Histórico</Link>
+          </Typography>
+        </Box>
         {expenses.length > 0 ? (
           <>
             {expenses.map((expense, index) => (
@@ -228,9 +234,9 @@ const Home: React.FC = () => {
           <Typography >Nenhuma despesa encontrada.</Typography>
         )}
 
-        <ExpenseModal 
-          isModalOpen={isModalOpen} 
-          closeModal={() => handleClose()} 
+        <ExpenseModal
+          isModalOpen={isModalOpen}
+          closeModal={() => handleClose()}
           onSave={handleAddExpense}
           editExpense={expense}
         />

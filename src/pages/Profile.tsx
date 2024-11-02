@@ -38,9 +38,7 @@ const Profile: React.FC = () => {
           <div className="text-left space-y-4">
             <p className="text-lg"><strong>Nome:</strong> {userProfile.name}</p>
             <p className="text-lg"><strong>E-mail:</strong> {userProfile.email}</p>
-            
-              <p className="text-lg"><strong>Número do Apartamento:</strong> {aptoNumber ? aptoNumber : 'Não tem nada cadastrado'}</p>
-            
+            <p className="text-lg"><strong>Número do Apartamento:</strong> {aptoNumber ? aptoNumber : 'Não tem nada cadastrado'}</p>
           </div>
         ) : (
           <p className="text-lg text-gray-500">Carregando perfil...</p>

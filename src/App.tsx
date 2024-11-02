@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import BaseLayout from "./theme/components/BaseLayout";
 import NotFound from "./pages/NotFound";
+import UsageHistory from "./pages/UsageHistory";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
         >
           <Route path="home" element={<Home />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="usage-history" element={<UsageHistory />} />
           <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
         </Route>
         <Route path="*" element={<NotFound />} />

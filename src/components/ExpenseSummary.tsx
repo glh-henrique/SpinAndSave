@@ -18,7 +18,7 @@ const Span = styled('span')({
   fontWeight: 'bold'
 });
 
-const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ washing, drying }) => {
+const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, drying }) => {
   const total = washing + drying;
 
   return (
@@ -26,7 +26,7 @@ const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ washing, drying }) => 
       <CustomBox>
         <Box flex="1">
           <Typography variant="subtitle1">
-            Mês corrente: <Span>{getCurrentMonth()}</Span>
+            {month ?  (<Span>{month.toUpperCase()}</Span>) : ( <> Mês corrente: <Span>{getCurrentMonth()}</Span></>)}
           </Typography>
           <Divider sx={{ my: 1 }} />
           <Typography variant="body2">Lavagem: {washing} euros</Typography>
