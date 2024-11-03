@@ -51,46 +51,46 @@ export const documentToExpense = (doc: Models.Document): IExpense => {
 
 interface MonthlyData {
   Lavagens: {
-      total: number;
-      valorTotal: number;
+    total: number;
+    valorTotal: number;
   };
   Secagens: {
-      total: number;
-      valorTotal: number;
+    total: number;
+    valorTotal: number;
   };
 }
 
 export function getMonthlyReport(data: IExpense[]) {
-  const valorPorLavagem = 0; 
-  const valorPorSecagem = 0; 
+  const valorPorLavagem = 0;
+  const valorPorSecagem = 0;
 
   const getMonthName = (dateStr: string): string => {
-      const date = new Date(dateStr);
-      return date.toLocaleString("pt-BR", { month: "long" });
+    const date = new Date(dateStr);
+    return date.toLocaleString("pt-BR", { month: "long" });
   };
 
   const monthlyData: { [month: string]: MonthlyData } = {};
 
   data.forEach(item => {
-      const month = getMonthName(item.date);
-      
-      if (!monthlyData[month]) {
-          monthlyData[month] = { Lavagens: { total: 0, valorTotal: 0 }, Secagens: { total: 0, valorTotal: 0 } };
-      }
-      
-      if (item.type === "Lavagem") {
-          monthlyData[month].Lavagens.total += item.amount;
-          monthlyData[month].Lavagens.valorTotal += item.amount * valorPorLavagem;
-      } else if (item.type === "Secagem") {
-          monthlyData[month].Secagens.total += item.amount;
-          monthlyData[month].Secagens.valorTotal += item.amount * valorPorSecagem;
-      }
+    const month = getMonthName(item.date);
+
+    if (!monthlyData[month]) {
+      monthlyData[month] = { Lavagens: { total: 0, valorTotal: 0 }, Secagens: { total: 0, valorTotal: 0 } };
+    }
+
+    if (item.type === "Lavagem") {
+      monthlyData[month].Lavagens.total += item.amount;
+      monthlyData[month].Lavagens.valorTotal += item.amount * valorPorLavagem;
+    } else if (item.type === "Secagem") {
+      monthlyData[month].Secagens.total += item.amount;
+      monthlyData[month].Secagens.valorTotal += item.amount * valorPorSecagem;
+    }
   });
 
   const result = Object.keys(monthlyData).map(month => ({
-      month,
-      Lavagens: monthlyData[month].Lavagens,
-      Secagens: monthlyData[month].Secagens
+    month,
+    Lavagens: monthlyData[month].Lavagens,
+    Secagens: monthlyData[month].Secagens
   }));
 
   return result;

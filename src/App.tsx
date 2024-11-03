@@ -13,27 +13,27 @@ import UsageHistory from "./pages/UsageHistory";
 const App: React.FC = () => {
   return (
     <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/email-verification" element={<EmailVerification />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <BaseLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="home" element={<Home />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="usage-history" element={<UsageHistory />} />
-          <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <BaseLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="home" element={<Home />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="usage-history" element={<UsageHistory />} />
+            <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </>
   );
 };

@@ -4,7 +4,9 @@ import { getCurrentMonth } from '../utils';
 import { IExpenseSummaryProps } from '../utils/interfaces';
 
 const CustomCard = styled(Card)({
-  borderRadius: 0
+  borderRadius: 0,
+  marginBottom: 10,
+  marginTop: 10
 });
 
 const CustomBox = styled(Box)({
@@ -26,7 +28,7 @@ const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, drying
       <CustomBox>
         <Box flex="1">
           <Typography variant="subtitle1">
-            {month ?  (<Span>{month.toUpperCase()}</Span>) : ( <> Mês corrente: <Span>{getCurrentMonth()}</Span></>)}
+            {month ? (<Span>{month.toUpperCase()}</Span>) : (<> Mês corrente: <Span>{getCurrentMonth()}</Span></>)}
           </Typography>
           <Divider sx={{ my: 1 }} />
           <Typography variant="body2">Lavagem: {washing} euros</Typography>

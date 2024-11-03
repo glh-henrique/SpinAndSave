@@ -30,11 +30,11 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 
 const Register: React.FC = () => {
-  const [errors, setErrors] = useState({ 
-    email: "", 
-    password: "", 
-    name: "", 
-    aptoNumber: "" 
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    name: "",
+    aptoNumber: ""
   });
 
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -68,7 +68,7 @@ const Register: React.FC = () => {
       await account.deleteSession("current");
 
       toast(() => <p> Registro bem-sucedido! <br /> Por favor, verifique seu e-mail para ativar sua conta. </p>);
-      
+
     } catch (error) {
       console.error("Erro no registro:", error);
       toast(() => <p> Registro falhou. <br /> Por favor, tente novamente.</p>);
@@ -91,7 +91,7 @@ const Register: React.FC = () => {
       setErrors((prevErrors) => ({ ...prevErrors, name: "Nome é obrigatório" }));
     }
 
-    if (id === "aptoNumber" && value.length === 0 ) {
+    if (id === "aptoNumber" && value.length === 0) {
       setErrors((prevErrors) => ({ ...prevErrors, aptoNumber: "Nº apartamento é obrigatório" }));
     }
   };
@@ -124,8 +124,8 @@ const Register: React.FC = () => {
     if (!name) {
       newErrors.name = "Nome é obrigatório.";
       isValid = false;
-    } 
-    
+    }
+
     if (!aptoNumber) {
       newErrors.aptoNumber = " Nº do apto é obrigatório.";
       isValid = false;

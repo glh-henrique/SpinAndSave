@@ -62,7 +62,7 @@ const SwitchCustom: React.FC = () => {
   const { setMode } = useColorScheme();
 
   const handleChange = useCallback(($event: any) => {
-      setMode($event.target.checked ? 'dark' : 'light');
+    setMode($event.target.checked ? 'dark' : 'light');
   }, [])
 
   return (

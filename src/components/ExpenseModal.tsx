@@ -1,17 +1,17 @@
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Button, 
-  FormControl, 
-  MenuItem, 
-  Select, 
-  SelectChangeEvent, 
-  FormLabel, 
-  TextField, 
-  InputAdornment, 
-  Box 
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  FormLabel,
+  TextField,
+  InputAdornment,
+  Box
 } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -56,7 +56,7 @@ const ExpenseModal: React.FC<IExpenseModalProps> = ({
       handleClose();
       return;
     }
-    
+
     onSave({ type, amount: Number(amount), date: date! });
     handleClose();
   };

@@ -39,7 +39,7 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'portrait',
-        theme_color:"#f5f6fa",
+        theme_color: "#f5f6fa",
       },
       workbox: {
         runtimeCaching: [
