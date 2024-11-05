@@ -105,7 +105,7 @@ const Home: React.FC = () => {
         const updatedExpenses = [...expenses];
         updatedExpenses[expenseIndex] = documentToExpense(updatedExpense);
         setExpenses(updatedExpenses);
-        showMessage('Despesa adicionada!', 'success');
+        showMessage('Despesa editada!', 'success');
       } else {
         const newExpense = await databases.createDocument(
           DATABASE_ID,
@@ -115,7 +115,7 @@ const Home: React.FC = () => {
         );
 
         setExpenses([...expenses, documentToExpense(newExpense)]);
-        showMessage('Despesa editada!', 'success');
+        showMessage('Despesa adicionada!', 'success');
       }
     } catch (error) {
       console.error("Erro ao adicionar/editar despesa:", error);
@@ -147,7 +147,6 @@ const Home: React.FC = () => {
     setExpense(null);
     setExpenseIndex(null);
     setIsModalOpen(false);
-
   };
 
   const handleOpenItemOptions = (event: React.MouseEvent<HTMLElement>, expense: IExpense, index: number) => {
