@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AppTheme from "../theme/appTheme";
-import { CssBaseline, Card, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Stack } from "@mui/material";
+import { CssBaseline, Card, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Stack, IconButton } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useMessage } from "../context/MessageContext";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const MuiCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -28,9 +30,10 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const Login: React.FC = () => {
-  const { login, loading} = useAuth();
+  const { login, loading } = useAuth();
   const { showMessage } = useMessage();
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,6 +50,10 @@ const Login: React.FC = () => {
       console.error("Erro no login:", error);
       showMessage("Login falhou. Verifique suas credenciais.", "error");
     }
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +130,7 @@ const Login: React.FC = () => {
                   helperText={errors.password}
                   onChange={handleChange}
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="••••••"
                   autoComplete="current-password"
@@ -131,6 +138,18 @@ const Login: React.FC = () => {
                   fullWidth
                   variant="outlined"
                   color={errors.password ? 'error' : 'primary'}
+                  slotProps={{
+                    input: {
+                      endAdornment:
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleTogglePassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    }
+                  }}
                 />
               </FormControl>
               <Button type="submit" fullWidth variant="contained" disabled={loading}>Sign in</Button>
