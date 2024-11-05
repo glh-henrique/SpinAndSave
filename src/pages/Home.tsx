@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Query, Models, ID } from "appwrite";
-import { account, databases } from "../appwrite";
+import { databases } from "../appwrite";
 import ExpenseModal from "../components/ExpenseModal";
 import { documentToExpense, getCurrentMonthExpenses } from "../utils";
 import {
@@ -26,6 +26,8 @@ import LaundryIcon from '@mui/icons-material/LocalLaundryService'
 import dayjs from "dayjs";
 import ExpenseSummary from "../components/ExpenseSummary";
 import { IExpense, IExpenseSummary } from "../utils/interfaces";
+import { useAuth } from "../context/AuthContext";
+import { useMessage } from "../context/MessageContext";
 
 const RoundedButton = styled(Button)({
   width: '50px',
@@ -41,6 +43,8 @@ const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const EXPENSES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_EXPENSES_COLLECTION_ID;
 
 const Home: React.FC = () => {
+  const { user } = useAuth();
+  const {showMessage} = useMessage()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -54,11 +58,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await account.get();
-
-        fetchExpenses(user.$id);
-        setFamilyId(user.$id)
-
+        fetchExpenses(user!.id);
+        setFamilyId(user!.id)
       } catch (error: any) {
         console.log(error)
       }
@@ -104,6 +105,7 @@ const Home: React.FC = () => {
         const updatedExpenses = [...expenses];
         updatedExpenses[expenseIndex] = documentToExpense(updatedExpense);
         setExpenses(updatedExpenses);
+        showMessage('Despesa adicionada!', 'success');
       } else {
         const newExpense = await databases.createDocument(
           DATABASE_ID,
@@ -113,9 +115,11 @@ const Home: React.FC = () => {
         );
 
         setExpenses([...expenses, documentToExpense(newExpense)]);
+        showMessage('Despesa editada!', 'success');
       }
     } catch (error) {
       console.error("Erro ao adicionar/editar despesa:", error);
+      showMessage('Erro ao adicionar/editar despesa', 'error');
     }
 
     setIsModalOpen(false);
@@ -131,8 +135,10 @@ const Home: React.FC = () => {
       const updatedExpenses = expenses.filter((_, i) => i !== index);
       setExpenses(updatedExpenses);
       handleClose();
+      showMessage('Despesa excluida!', 'success');
     } catch (error) {
       console.error("Erro ao excluir despesa:", error);
+      showMessage('Erro ao excluir despesa', 'error');
     }
   };
 

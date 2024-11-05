@@ -9,30 +9,59 @@ import EmailVerification from "./pages/EmailVerification";
 import BaseLayout from "./theme/components/BaseLayout";
 import NotFound from "./pages/NotFound";
 import UsageHistory from "./pages/UsageHistory";
+import { AuthProvider } from "./context/AuthContext";
+import GlobalMessage from "./components/GlobalMessage";
+import { MessageProvider } from "./context/MessageContext";
 
 const App: React.FC = () => {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/email-verification" element={<EmailVerification />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <BaseLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="usage-history" element={<UsageHistory />} />
-            <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <MessageProvider>
+          <AuthProvider>
+            <GlobalMessage />
+            <Routes>
+              <Route path="/" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <Login />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="/login" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <Login />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="/register" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <Register />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="/email-verification" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <EmailVerification />
+                </ProtectedRoute>
+              }
+              />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute requiresAuth>
+                    <BaseLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="home" element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="usage-history" element={<UsageHistory />} />
+                <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </MessageProvider>
       </Router>
     </>
   );

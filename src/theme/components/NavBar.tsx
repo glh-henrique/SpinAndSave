@@ -11,7 +11,7 @@ import Logout from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SwitchCustom from '../../components/Switch';
 import { Avatar, styled } from '@mui/material';
-import { account } from '../../appwrite';
+import { useAuth } from '../../context/AuthContext';
 
 const CustomDiv = styled('div')({
   flexGrow: 1,
@@ -35,6 +35,7 @@ const CustomToolbar = styled(Toolbar)({
 const CustomAppBar = styled(AppBar)(() => ({}));
 
 const NavBar: React.FC = () => {
+  const { logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const navItems = [
@@ -57,16 +58,6 @@ const NavBar: React.FC = () => {
 
   const getLinkStyle = (path: string) => {
     return location.pathname === path ? "info" : "default";
-  };
-
-  const handleLogout = async () => {
-    try {
-      await account.deleteSession('current');
-      navigate('/');
-    } catch (error) {
-      console.error('Erro ao encerrar a sessão:', error);
-      alert('Erro ao encerrar a sessão. Por favor, tente novamente.');
-    }
   };
 
   return (
@@ -93,7 +84,7 @@ const NavBar: React.FC = () => {
               ))}
               <SwitchCustom />
               <IconButton
-                onClick={handleLogout}
+                onClick={logout}
                 size="large"
                 aria-label="account logout"
               >

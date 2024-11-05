@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { account } from "../appwrite";
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import AppTheme from "../theme/appTheme";
 import { CssBaseline, Card, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Stack } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
+import { useMessage } from "../context/MessageContext";
 
 const MuiCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -28,19 +28,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const Login: React.FC = () => {
+  const { login, loading} = useAuth();
+  const { showMessage } = useMessage();
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const logoutUser = async () => {
-      try {
-        await account.deleteSession("current");
-      } catch (error) {
-        console.error("Erro ao encerrar a sessão:", error);
-      }
-    };
-    logoutUser();
-  }, []);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,19 +42,10 @@ const Login: React.FC = () => {
     const password = data.get('password') as string;
 
     try {
-      await account.createEmailPasswordSession(email, password);
-      const user = await account.get();
-
-      if (!user.emailVerification) {
-        toast("Por favor, verifique seu e-mail antes de fazer login.");
-        await account.createVerification("https://spin-and-save.vercel.app/email-verification");
-        await account.deleteSession("current");
-        return;
-      }
-      navigate("/home");
+      await login(email, password);
     } catch (error) {
       console.error("Erro no login:", error);
-      toast("Login falhou. Verifique suas credenciais.");
+      showMessage("Login falhou. Verifique suas credenciais.", "error");
     }
   };
 
@@ -110,7 +91,6 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <ToastContainer />
       <AppTheme>
         <CssBaseline enableColorScheme />
         <SignInContainer direction="column" justifyContent="space-between">
@@ -153,7 +133,7 @@ const Login: React.FC = () => {
                   color={errors.password ? 'error' : 'primary'}
                 />
               </FormControl>
-              <Button type="submit" fullWidth variant="contained">Sign in</Button>
+              <Button type="submit" fullWidth variant="contained" disabled={loading}>Sign in</Button>
               <Typography sx={{ textAlign: 'center' }}>
                 Don&apos;t have an account? <Link to='/register'>Sign up</Link>
               </Typography>

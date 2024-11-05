@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { account } from "./appwrite";
-import { IProtectedRouteProps } from "./utils/interfaces";
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 
-const ProtectedRoute: React.FC<IProtectedRouteProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  requiresAuth: boolean;
+}
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const user = await account.get();
-        if (!user.emailVerification) {
-          alert("Por favor, verifique seu e-mail antes de acessar esta página.");
-          setIsAuthenticated(false);
-        } else {
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
-  }, []);
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiresAuth }) => {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
-  if (isAuthenticated === null) {
-    return <div>Carregando...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">Loading...</div>
+      </div>
+    );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+  const redirectPath = requiresAuth ? "/login" : location.state?.from?.pathname || "/home";
+  const shouldRedirect = requiresAuth ? !isAuthenticated : isAuthenticated;
 
-  return children;
+  return shouldRedirect ? <Navigate to={redirectPath} state={{ from: location }} replace /> : <>{children}</>;
 };
 
 export default ProtectedRoute;

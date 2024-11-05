@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { account, databases } from "../appwrite";
 import { ID } from "appwrite";
-import { toast, ToastContainer } from "react-toastify";
 import AppTheme from "../theme/appTheme";
 import { CssBaseline, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Card, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useMessage } from "../context/MessageContext";
 
 const MuiCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -30,6 +30,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 
 const Register: React.FC = () => {
+  const {showMessage} = useMessage()
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -67,11 +68,11 @@ const Register: React.FC = () => {
       await account.createVerification(redirectURL);
       await account.deleteSession("current");
 
-      toast(() => <p> Registro bem-sucedido! <br /> Por favor, verifique seu e-mail para ativar sua conta. </p>);
+      showMessage('Registro bem-sucedido! Por favor, verifique seu e-mail para ativar sua conta.', 'success');
 
     } catch (error) {
       console.error("Erro no registro:", error);
-      toast(() => <p> Registro falhou. <br /> Por favor, tente novamente.</p>);
+      showMessage('Registro falhou.! Por favor, tente novamente.', 'error');
     }
   };
 
@@ -137,7 +138,6 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <ToastContainer />
       <AppTheme>
         <CssBaseline enableColorScheme />
         <SignInContainer direction="column" justifyContent="space-between">
