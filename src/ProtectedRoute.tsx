@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import Loading from './components/Loading';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -13,9 +14,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiresAuth 
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="loader">Loading...</div>
-      </div>
+      <Loading />
     );
   }
 
