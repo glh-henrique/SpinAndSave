@@ -13,7 +13,7 @@ const CustomBox = styled(Box)({
   display: 'flex',
   alignItems: "center",
   justifyContent: "space-between",
-  padding: '24px'
+  padding: '18px'
 });
 
 const Span = styled('span')({
@@ -43,9 +43,9 @@ const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, countW
         <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
         <Box flex="0.5" textAlign="center">
-          <Typography variant="subtitle1">Gasto Total</Typography>
-          <Typography variant="h3" fontWeight="bold">
-            {total.toFixed(2)} €
+          <Typography variant="subtitle1">Total</Typography>
+          <Typography variant="h5" fontWeight="bold">
+            {total.toFixed(2)}€
           </Typography>
         </Box>
       </CustomBox>
