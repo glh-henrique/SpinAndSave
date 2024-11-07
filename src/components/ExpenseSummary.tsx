@@ -20,7 +20,7 @@ const Span = styled('span')({
   fontWeight: 'bold'
 });
 
-const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, drying }) => {
+const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, countWashing, drying, countDrying }) => {
   const total = washing + drying;
 
   return (
@@ -28,19 +28,24 @@ const ExpenseSummary: React.FC<IExpenseSummaryProps> = ({ month, washing, drying
       <CustomBox>
         <Box flex="1">
           <Typography variant="subtitle1">
-            {month ? (<Span>{month.toUpperCase()}</Span>) : (<> Mês corrente: <Span>{getCurrentMonth()}</Span></>)}
+            {month ? (
+              <Span>{month.toUpperCase()}</Span>)
+              : (
+                <> Mês corrente: <Span>{getCurrentMonth()}</Span></>
+              )
+            }
           </Typography>
           <Divider sx={{ my: 1 }} />
-          <Typography variant="body2">Lavagem: {washing} euros</Typography>
-          <Typography variant="body2">Secagem: {drying} euros</Typography>
+          <Typography variant="body2">Lavagem( {countWashing} ): {washing} euros</Typography>
+          <Typography variant="body2">Secagem( {countDrying} ): {drying} euros</Typography>
         </Box>
 
         <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
         <Box flex="0.5" textAlign="center">
-          <Typography variant="subtitle1">Total</Typography>
+          <Typography variant="subtitle1">Gasto Total</Typography>
           <Typography variant="h3" fontWeight="bold">
-            {total} €
+            {total.toFixed(2)} €
           </Typography>
         </Box>
       </CustomBox>

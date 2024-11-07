@@ -1,33 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AppTheme from "../theme/appTheme";
-import { CssBaseline, Card, Typography, Box, FormControl, FormLabel, TextField, Button, styled, Stack, IconButton } from "@mui/material";
+import { CssBaseline, Typography, Box, FormControl, FormLabel, TextField, Button, IconButton } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useMessage } from "../context/MessageContext";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Container, MuiCard } from "../shared/styles";
 
-const MuiCard = styled(Card)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: { maxWidth: '450px' },
-  boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
-
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: { padding: theme.spacing(4) },
-}));
 
 const Login: React.FC = () => {
   const { login, loading } = useAuth();
@@ -100,7 +80,7 @@ const Login: React.FC = () => {
     <>
       <AppTheme>
         <CssBaseline enableColorScheme />
-        <SignInContainer direction="column" justifyContent="space-between">
+        <Container direction="column" justifyContent="space-between">
           <MuiCard variant="outlined">
             <Typography component="h1" variant="h4" sx={{ fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
               Sign in
@@ -153,12 +133,12 @@ const Login: React.FC = () => {
                 />
               </FormControl>
               <Button type="submit" fullWidth variant="contained" disabled={loading}>Sign in</Button>
-              <Typography sx={{ textAlign: 'center' }}>
+              <Typography textAlign={'center'}>
                 Don&apos;t have an account? <Link to='/register'>Sign up</Link>
               </Typography>
             </Box>
           </MuiCard>
-        </SignInContainer>
+        </Container>
       </AppTheme>
     </>
   );

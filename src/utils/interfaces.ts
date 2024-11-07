@@ -17,6 +17,8 @@ export interface IExpense {
 export interface IExpenseSummary {
   lavagem: number;
   secagem: number;
+  countSecagemTotal: number;
+  countLavagemTotal: number;
 }
 
 export interface IExpenseModal {
@@ -35,5 +37,18 @@ export interface IExpenseModalProps {
 export interface IExpenseSummaryProps {
   washing: number;
   drying: number;
+  countWashing: number;
+  countDrying: number;
   month?: string
+}
+
+export interface MonthlyData {
+  Lavagens: {
+    total: number;
+    valorTotal: number;
+  };
+  Secagens: {
+    total: number;
+    valorTotal: number;
+  };
 }

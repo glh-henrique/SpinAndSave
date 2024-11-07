@@ -1,5 +1,5 @@
 import { Models } from "appwrite";
-import { IExpense } from "./interfaces";
+import { IExpense, MonthlyData } from "./interfaces";
 
 export function getCurrentMonth() {
   const date = new Date();
@@ -16,7 +16,9 @@ export function getCurrentMonthExpenses(expenses: IExpense[]) {
   const currentMonth = currentDate.getMonth();
 
   let lavagemTotal = 0;
+  let countLavagemTotal = 0;
   let secagemTotal = 0;
+  let countSecagemTotal = 0;
 
   expenses.forEach(expense => {
     const expenseDate = new Date(expense.date);
@@ -27,15 +29,19 @@ export function getCurrentMonthExpenses(expenses: IExpense[]) {
 
       if (expense.type === "Lavagem") {
         lavagemTotal += expense.amount;
+        countLavagemTotal++;
       } else if (expense.type === "Secagem") {
         secagemTotal += expense.amount;
+        countSecagemTotal++;
       }
     }
   });
 
   return {
     lavagem: lavagemTotal,
-    secagem: secagemTotal
+    secagem: secagemTotal,
+    countSecagemTotal,
+    countLavagemTotal
   };
 }
 
@@ -49,20 +55,8 @@ export const documentToExpense = (doc: Models.Document): IExpense => {
   };
 };
 
-interface MonthlyData {
-  Lavagens: {
-    total: number;
-    valorTotal: number;
-  };
-  Secagens: {
-    total: number;
-    valorTotal: number;
-  };
-}
 
 export function getMonthlyReport(data: IExpense[]) {
-  const valorPorLavagem = 0;
-  const valorPorSecagem = 0;
 
   const getMonthName = (dateStr: string): string => {
     const date = new Date(dateStr);
@@ -79,11 +73,11 @@ export function getMonthlyReport(data: IExpense[]) {
     }
 
     if (item.type === "Lavagem") {
-      monthlyData[month].Lavagens.total += item.amount;
-      monthlyData[month].Lavagens.valorTotal += item.amount * valorPorLavagem;
+      monthlyData[month].Lavagens.total++;
+      monthlyData[month].Lavagens.valorTotal += item.amount;
     } else if (item.type === "Secagem") {
-      monthlyData[month].Secagens.total += item.amount;
-      monthlyData[month].Secagens.valorTotal += item.amount * valorPorSecagem;
+      monthlyData[month].Secagens.total++;
+      monthlyData[month].Secagens.valorTotal += item.amount;
     }
   });
 
@@ -94,4 +88,14 @@ export function getMonthlyReport(data: IExpense[]) {
   }));
 
   return result;
+}
+
+export function formatInput(value: string): string {
+  const formattedValue = value.replace(',', '.').replace(/[^0-9.]/g, '');
+  const parts = formattedValue.split('.');
+
+  if (parts.length > 2) {
+    return `${parts[0]}.${parts[1]}`;
+  }
+  return formattedValue;
 }

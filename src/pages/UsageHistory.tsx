@@ -57,13 +57,18 @@ const UsageHistory: React.FC = () => {
     }
   };
 
-
   return (
     <>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {expensesByMonth.map((item, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 6 }}>
-            <ExpenseSummary month={item.month} washing={item.Lavagens.total} drying={item.Secagens.total} />
+            <ExpenseSummary
+              month={item.month}
+              countDrying={item.Secagens.total}
+              countWashing={item.Lavagens.total}
+              washing={item.Lavagens.valorTotal}
+              drying={item.Secagens.valorTotal}
+            />
           </Grid>
         ))}
       </Grid>

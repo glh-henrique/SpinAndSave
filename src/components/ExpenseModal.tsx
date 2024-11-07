@@ -18,6 +18,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import React, { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { IExpenseModalProps } from "../utils/interfaces";
+import { formatInput } from "../utils";
 
 const ExpenseModal: React.FC<IExpenseModalProps> = ({
   isModalOpen,
@@ -87,7 +88,7 @@ const ExpenseModal: React.FC<IExpenseModalProps> = ({
             <FormControl fullWidth>
               <FormLabel htmlFor="valor">Valor</FormLabel>
               <TextField
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => setAmount(formatInput(e.target.value))}
                 id="valor"
                 type="text"
                 name="valor"

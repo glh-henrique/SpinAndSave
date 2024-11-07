@@ -53,7 +53,7 @@ const Home: React.FC = () => {
   const [expenseIndex, setExpenseIndex] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [familyId, setFamilyId] = useState<string>("");
-  const [expenseSummary, setExpenseSummary] = useState<IExpenseSummary>({ lavagem: 0, secagem: 0 });
+  const [expenseSummary, setExpenseSummary] = useState<IExpenseSummary>({ lavagem: 0, secagem: 0, countLavagemTotal: 0, countSecagemTotal: 0  });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -160,7 +160,12 @@ const Home: React.FC = () => {
       <div>
         <h1>Controle de Despesas</h1>
 
-        <ExpenseSummary washing={expenseSummary.lavagem} drying={expenseSummary.secagem} />
+        <ExpenseSummary
+          washing={expenseSummary.lavagem}
+          drying={expenseSummary.secagem}
+          countDrying={expenseSummary.countSecagemTotal}
+          countWashing={expenseSummary.countLavagemTotal}
+        />
         <Box component="section" sx={{ p: 2, marginTop: '10px', marginBottom: '5px', display: 'flex', justifyContent: 'space-between' }}>
           <Typography>Atividades recetes</Typography>
           <Typography sx={{ textAlign: 'center' }}>
