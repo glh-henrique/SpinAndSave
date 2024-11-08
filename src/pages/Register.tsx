@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { account, databases } from "../appwrite";
 import { ID } from "appwrite";
 import AppTheme from "../theme/appTheme";
-import { CssBaseline, Typography, Box, FormControl, FormLabel, TextField, Button } from "@mui/material";
+import { CssBaseline, Typography, Box, FormControl, FormLabel, TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useMessage } from "../context/MessageContext";
 import { Container, MuiCard } from "../shared/styles";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { validationRegistrationSchema } from "../utils/formValidatorsSchema";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Register: React.FC = () => {
   const { showMessage } = useMessage();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfimation, setShowPasswordConfimation] = useState(false);
   const initialValue = { email: "", password: "", confirmPassword: "", name: "", aptoNumber: "" }
 
 
@@ -39,6 +43,11 @@ const Register: React.FC = () => {
       console.error("Erro no registro:", error);
       showMessage("Registro falhou. Por favor, tente novamente.", "error");
     }
+  };
+
+  const handleTogglePassword = (type: string) => {
+    type === 'password' && setShowPassword((prev) => !prev);
+    type === 'confirmPassword' && setShowPasswordConfimation((prev) => !prev);
   };
 
   return (
@@ -85,6 +94,19 @@ const Register: React.FC = () => {
                       error={Boolean(touched.password && errors.password)}
                       helperText={<ErrorMessage name="password" />}
                       variant="outlined"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => handleTogglePassword('password')}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                     />
                   </FormControl>
                   <FormControl>
@@ -99,6 +121,19 @@ const Register: React.FC = () => {
                       error={Boolean(touched.confirmPassword && errors.confirmPassword)}
                       helperText={<ErrorMessage name="confirmPassword" />}
                       variant="outlined"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => handleTogglePassword('confirmPassword')}
+                              edge="end"
+                            >
+                              {showPasswordConfimation ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                     />
                   </FormControl>
                   <FormControl>
