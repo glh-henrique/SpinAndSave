@@ -12,6 +12,9 @@ import UsageHistory from "./pages/UsageHistory";
 import { AuthProvider } from "./context/AuthContext";
 import GlobalMessage from "./components/GlobalMessage";
 import { MessageProvider } from "./context/MessageContext";
+import PasswordRecovery from "./pages/PasswordRecovery";
+import ResetPassword from "./pages/Passwordreset";
+
 
 const App: React.FC = () => {
   return (
@@ -42,6 +45,18 @@ const App: React.FC = () => {
               <Route path="/email-verification" element={
                 <ProtectedRoute requiresAuth={false}>
                   <EmailVerification />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="/password-recovery" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <PasswordRecovery />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="/reset-password" element={
+                <ProtectedRoute requiresAuth={false}>
+                  <ResetPassword />
                 </ProtectedRoute>
               }
               />
