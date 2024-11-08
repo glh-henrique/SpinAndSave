@@ -13,8 +13,7 @@ import { AuthProvider } from "./context/AuthContext";
 import GlobalMessage from "./components/GlobalMessage";
 import { MessageProvider } from "./context/MessageContext";
 import PasswordRecovery from "./pages/PasswordRecovery";
-import ResetPassword from "./pages/Passwordreset";
-
+import ResetPassword from "./pages/PasswordReset";
 
 const App: React.FC = () => {
   return (
