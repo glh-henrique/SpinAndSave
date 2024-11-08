@@ -87,7 +87,7 @@ const Register: React.FC = () => {
                       as={TextField}
                       name="password"
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="••••••"
                       autoComplete="current-password"
                       fullWidth
@@ -115,7 +115,7 @@ const Register: React.FC = () => {
                       as={TextField}
                       name="confirmPassword"
                       id="confirmPassword"
-                      type="password"
+                      type={showPasswordConfimation ? "text" : "password"}
                       placeholder="••••••"
                       fullWidth
                       error={Boolean(touched.confirmPassword && errors.confirmPassword)}

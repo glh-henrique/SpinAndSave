@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Typography, Box, FormControl, FormLabel, TextField, Button, CssBaseline } from "@mui/material";
+import { Typography, Box, FormControl, FormLabel, TextField, Button, CssBaseline, InputAdornment, IconButton } from "@mui/material";
 import { account } from "../appwrite";
 import { useMessage } from "../context/MessageContext";
 import { validationResetPassSchema } from "../utils/formValidatorsSchema";
 import AppTheme from "../theme/appTheme";
 import { Container, MuiCard } from "../shared/styles";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { showMessage } = useMessage();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfimation, setShowPasswordConfimation] = useState(false);
   const initialValue = { password: "", confirmPassword: "" };
 
   const queryParams = new URLSearchParams(location.search);
@@ -29,6 +33,11 @@ const ResetPassword: React.FC = () => {
       console.error("Error resetting password:", error);
       showMessage("Failed to reset password. Please try again or check the link.", "error");
     }
+  };
+
+  const handleTogglePassword = (type: string) => {
+    type === 'password' && setShowPassword((prev) => !prev);
+    type === 'confirmPassword' && setShowPasswordConfimation((prev) => !prev);
   };
 
   return (
@@ -54,12 +63,25 @@ const ResetPassword: React.FC = () => {
                         as={TextField}
                         name="password"
                         id="password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="••••••"
                         fullWidth
                         error={Boolean(touched.password && errors.password)}
                         helperText={<ErrorMessage name="password" />}
                         variant="outlined"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => handleTogglePassword('password')}
+                                edge="end"
+                              >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                       />
                     </FormControl>
                     <FormControl>
@@ -68,12 +90,25 @@ const ResetPassword: React.FC = () => {
                         as={TextField}
                         name="confirmPassword"
                         id="confirmPassword"
-                        type="password"
+                        type={showPasswordConfimation ? "text" : "password"}
                         placeholder="••••••"
                         fullWidth
                         error={Boolean(touched.confirmPassword && errors.confirmPassword)}
                         helperText={<ErrorMessage name="confirmPassword" />}
                         variant="outlined"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => handleTogglePassword('confirmPassword')}
+                                edge="end"
+                              >
+                                {showPasswordConfimation ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                       />
                     </FormControl>
                     <Button type="submit" fullWidth variant="contained">

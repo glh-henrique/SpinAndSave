@@ -17,7 +17,7 @@ const MuiCard = styled(Card)(({ theme }) => ({
   boxShadow: 'none'
 }));
 
-const SignInContainer = styled(Stack)(({ theme }) => ({
+const LoadingContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
   padding: theme.spacing(2),
@@ -28,12 +28,12 @@ const Loading: React.FC = () => (
   <>
       <AppTheme>
         <CssBaseline enableColorScheme />
-        <SignInContainer direction="column" justifyContent="space-between">
+        <LoadingContainer direction="column" justifyContent="space-between">
           <MuiCard>
-            <img src="loading-cat-trans.gif" alt="loading" />
+            <img src="loading-cat-trans.gif" alt="loading" style={{ maxWidth: '350px'}} />
             <Typography textAlign={'center'}>Loading...</Typography>
           </MuiCard>
-        </SignInContainer>
+        </LoadingContainer>
       </AppTheme>
     </>
 )
