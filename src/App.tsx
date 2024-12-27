@@ -14,6 +14,7 @@ import GlobalMessage from "./components/GlobalMessage";
 import { MessageProvider } from "./context/MessageContext";
 import PasswordRecovery from "./pages/PasswordRecovery";
 import ResetPassword from "./pages/PasswordReset";
+import LaundryStatus from "./pages/LaundryStatus";
 
 const App: React.FC = () => {
   return (
@@ -70,7 +71,7 @@ const App: React.FC = () => {
                 <Route path="home" element={<Home />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="usage-history" element={<UsageHistory />} />
-                <Route path="laundry-status" element={<p> aqui ainda não ta pronto</p>} />
+                <Route path="laundry-status" element={<LaundryStatus />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

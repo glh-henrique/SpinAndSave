@@ -13,7 +13,7 @@ const MuiCard = styled(Card)(({ theme }) => ({
   gap: theme.spacing(2),
   margin: 'auto',
   backgroundColor: 'transparent !important',
-  backgroundImage:'none',
+  backgroundImage: 'none',
   boxShadow: 'none'
 }));
 
@@ -26,16 +26,16 @@ const LoadingContainer = styled(Stack)(({ theme }) => ({
 
 const Loading: React.FC = () => (
   <>
-      <AppTheme>
-        <CssBaseline enableColorScheme />
-        <LoadingContainer direction="column" justifyContent="space-between">
-          <MuiCard>
-            <img src="loading-cat-trans.gif" alt="loading" style={{ maxWidth: '350px'}} />
-            <Typography textAlign={'center'}>Loading...</Typography>
-          </MuiCard>
-        </LoadingContainer>
-      </AppTheme>
-    </>
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <LoadingContainer direction="column" justifyContent="space-between">
+        <MuiCard>
+          <img src="loading-cat-trans.gif" alt="loading" style={{ maxWidth: '350px', margin: '0 auto'}} />
+          <Typography textAlign={'center'}>Loading...</Typography>
+        </MuiCard>
+      </LoadingContainer>
+    </AppTheme>
+  </>
 )
 
 export default Loading;

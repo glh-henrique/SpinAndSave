@@ -44,7 +44,7 @@ const EXPENSES_COLLECTION_ID = import.meta.env.VITE_APPWRITE_EXPENSES_COLLECTION
 
 const Home: React.FC = () => {
   const { user } = useAuth();
-  const {showMessage} = useMessage()
+  const { showMessage } = useMessage()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
   const [expenseIndex, setExpenseIndex] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [familyId, setFamilyId] = useState<string>("");
-  const [expenseSummary, setExpenseSummary] = useState<IExpenseSummary>({ lavagem: 0, secagem: 0, countLavagemTotal: 0, countSecagemTotal: 0  });
+  const [expenseSummary, setExpenseSummary] = useState<IExpenseSummary>({ lavagem: 0, secagem: 0, countLavagemTotal: 0, countSecagemTotal: 0 });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -78,7 +78,11 @@ const Home: React.FC = () => {
       const response = await databases.listDocuments(
         DATABASE_ID,
         EXPENSES_COLLECTION_ID,
-        [Query.equal("familyId", familyId)]
+        [
+          Query.equal("familyId", familyId),
+          Query.limit(5000),
+          Query.orderDesc('date')
+        ]
       );
 
       const expensesData: IExpense[] = response.documents.map((doc: Models.Document) =>
@@ -167,16 +171,16 @@ const Home: React.FC = () => {
           countWashing={expenseSummary.countLavagemTotal}
         />
         <Box component="section" sx={{ p: 2, marginTop: '10px', marginBottom: '5px', display: 'flex', justifyContent: 'space-between' }}>
-          <Typography>Atividades recetes</Typography>
+          <Typography>Atividades recentes</Typography>
           <Typography sx={{ textAlign: 'center' }}>
             <Link to='/usage-history'>Ver Histórico</Link>
           </Typography>
         </Box>
         {expenses.length > 0 ? (
           <>
-            {expenses.map((expense, index) => (
-              <List key={index}>
-                <ListItem sx={{ padding: 0 }}>
+            <List>
+              {expenses.map((expense, index) => (
+                <ListItem sx={{ padding: 0 }} key={index}>
                   <ListItemAvatar>
                     <Avatar>
                       {
@@ -214,8 +218,8 @@ const Home: React.FC = () => {
                   </IconButton>
 
                 </ListItem>
-              </List>
-            ))}
+              ))}
+            </List>
             <Menu
               id={`lock-menu`}
               anchorEl={anchorEl}
@@ -241,7 +245,7 @@ const Home: React.FC = () => {
             </Menu>
           </>
         ) : (
-          <Typography >Nenhuma despesa encontrada.</Typography>
+          <Typography>Nenhuma despesa encontrada.</Typography>
         )}
 
         <ExpenseModal
