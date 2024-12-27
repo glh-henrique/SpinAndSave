@@ -45,7 +45,10 @@ const UsageHistory: React.FC = () => {
       const response = await databases.listDocuments(
         DATABASE_ID,
         EXPENSES_COLLECTION_ID,
-        [Query.equal("familyId", familyId)]
+        [
+          Query.equal("familyId", familyId),
+          Query.limit(5000),
+        ]
       );
 
       const expensesData: IExpense[] = response.documents.map((doc: Models.Document) =>
