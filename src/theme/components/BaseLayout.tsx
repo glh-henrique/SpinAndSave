@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavBar from './NavBar';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import AppTheme from '../appTheme';
 import styled from '@emotion/styled';
 
@@ -23,6 +24,7 @@ const BaseLayout: React.FC = () => {
       <CustomDiv>
         <Outlet />
         <Analytics />
+        <SpeedInsights />
       </CustomDiv>
     </AppTheme>
   );
