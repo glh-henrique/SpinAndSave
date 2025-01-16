@@ -1,5 +1,7 @@
 # Spin & Save
 
+This application was created out of the need to solve an internal problem with the shared laundry facilities in the condominium where I live. It is currently used by the entire condominium to manage expenses and the usage queue for the laundry facilities.
+
 **Spin & Save** is a smart web application designed to simplify the management of shared laundry expenses. Whether you live in a shared apartment or manage a communal laundry setup, this app helps track and organize washing and drying costs efficiently, ensuring transparency and accountability for all users.
 
 ## Key Features
